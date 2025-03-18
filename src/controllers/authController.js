@@ -26,7 +26,14 @@ const register = async (req, res, next) => {
         // Generate token
         const token = user.generateAuthToken();
 
-        res.status(201).json({
+        res.cookie('jwt', token, {
+            httpOnly: true, // Prevents client-side access to the cookie
+            secure: process.env.NODE_ENV === 'production', // Ensures it's sent over HTTPS in production
+            sameSite: 'Strict', // Helps prevent CSRF attacks
+            maxAge: 24 * 60 * 60 * 1000 // 1 day expiration
+        });
+
+        res.status(200).json({
             status: 'success',
             data: {
                 user: {
@@ -34,8 +41,7 @@ const register = async (req, res, next) => {
                     name: user.name,
                     email: user.email,
                     role: user.role
-                },
-                token
+                }
             }
         });
     } catch (error) {
@@ -67,6 +73,13 @@ const login = async (req, res, next) => {
         // Generate token
         const token = user.generateAuthToken();
 
+        res.cookie('jwt', token, {
+            httpOnly: true, // Prevents client-side access to the cookie
+            secure: process.env.NODE_ENV === 'production', // Ensures it's sent over HTTPS in production
+            sameSite: 'Strict', // Helps prevent CSRF attacks
+            maxAge: 24 * 60 * 60 * 1000 // 1 day expiration
+        });
+
         res.status(200).json({
             status: 'success',
             data: {
@@ -75,10 +88,10 @@ const login = async (req, res, next) => {
                     name: user.name,
                     email: user.email,
                     role: user.role
-                },
-                token
+                }
             }
         });
+
     } catch (error) {
         next(error);
     }
@@ -93,7 +106,8 @@ const getProfile = async (req, res, next) => {
                     id: req.user._id,
                     name: req.user.name,
                     email: req.user.email,
-                    role: req.user.role
+                    role: req.user.role,
+                    messages: req.user?.messages
                 }
             }
         });

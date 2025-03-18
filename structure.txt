@@ -1,0 +1,39 @@
+// File structure
+// ├── package.json
+// ├── .env
+// ├── src/
+// │   ├── index.js
+// │   ├── config/
+// │   │   └── config.js
+// │   ├── middleware/
+// │   │   ├── auth.js
+// │   │   ├── errorHandler.js
+// │   │   └── upload.js
+// │   ├── models/
+// │   │   ├── document.js
+// │   │   └── user.js
+// │   ├── routes/
+// │   │   ├── auth.js
+// │   │   ├── documents.js
+// │   │   └── chat.js
+// │   ├── controllers/
+// │   │   ├── authController.js
+// │   │   ├── documentController.js
+// │   │   └── chatController.js
+// │   ├── services/
+// │   │   ├── documentProcessor.js
+// │   │   ├── vectorStore.js
+// │   │   └── chatService.js
+// │   └── utils/
+// │       ├── logger.js
+// │       └── validators.js
+
+curl http://localhost:3000/api/auth/register --header "Content-Type: application/json" -d '{"name": "Noel", "email": "noelw19@outlook.com", "password": "P@55w0rd"}' 
+
+curl http://localhost:3000/api/auth/profile --header "Content-Type: application/json" --header "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDdjNzM1YjZiMGM2ZTEwZmJhNWE5OCIsImlhdCI6MTc0MjE5NDQ4NSwiZXhwIjoxNzQyMjgwODg1fQ.YM7rIaWreh2oFYpEGD8Nx7fbA9b7RHyIwaT8hPML1wU"
+
+curl http://localhost:3000/api/documents --header "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDdjNzM1YjZiMGM2ZTEwZmJhNWE5OCIsImlhdCI6MTc0MjE5NDQ4NSwiZXhwIjoxNzQyMjgwODg1fQ.YM7rIaWreh2oFYpEGD8Nx7fbA9b7RHyIwaT8hPML1wU" -F "file=@new.pdf" -F "title=huntly.pdf"  
+
+curl http://localhost:3000/api/chat/ --header "Content-Type: application/json" --header "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDdjNzM1YjZiMGM2ZTEwZmJhNWE5OCIsImlhdCI6MTc0MjE5NDQ4NSwiZXhwIjoxNzQyMjgwODg1fQ.YM7rIaWreh2oFYpEGD8Nx7fbA9b7RHyIwaT8hPML1wU" -d '{"query": "what is this document about ?", "documentId":"67d7cb7fac9003296682ee6e"}'
+
+curl http://localhost:3000/api/chat/ --header "Content-Type: application/json" --header "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZDdjNzM1YjZiMGM2ZTEwZmJhNWE5OCIsImlhdCI6MTc0MjE5NDQ4NSwiZXhwIjoxNzQyMjgwODg1fQ.YM7rIaWreh2oFYpEGD8Nx7fbA9b7RHyIwaT8hPML1wU" -d '{"query": "give me a short summary about what it is about", "documentId":"67d7cf2536e707b7168ea121"}'

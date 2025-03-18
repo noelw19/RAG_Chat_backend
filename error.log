@@ -38,3 +38,21 @@
 {"level":"error","message":"Error connecting to MongoDB:","timestamp":"2025-03-18T06:12:19.049Z"}
 {"level":"error","message":"Error connecting to MongoDB:","timestamp":"2025-03-18T07:08:18.814Z"}
 {"level":"error","message":"Error connecting to MongoDB:","timestamp":"2025-03-18T07:09:19.452Z"}
+{"level":"error","message":"Error connecting to MongoDB:","timestamp":"2025-03-18T07:12:40.362Z"}
+{"level":"error","message":"Error connecting to MongoDB:","timestamp":"2025-03-18T07:14:12.141Z"}
+{"level":"error","message":"ApiError: Invalid credentials","stack":"ApiError: Invalid credentials\n    at login (/Users/noelwilliams/Documents/projects/ai/ragAPI/src/controllers/authController.js:70:19)","timestamp":"2025-03-18T09:04:03.656Z"}
+{"level":"error","message":"ApiError: Document not found","stack":"ApiError: Document not found\n    at chat (/Users/noelwilliams/Documents/projects/ai/ragAPI/src/controllers/chatController.js:21:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-03-18T11:30:41.110Z"}
+{"level":"error","message":"ApiError: Document not found","stack":"ApiError: Document not found\n    at chat (/Users/noelwilliams/Documents/projects/ai/ragAPI/src/controllers/chatController.js:21:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-03-18T11:32:00.679Z"}
+{"level":"error","message":"ApiError: Document not found","stack":"ApiError: Document not found\n    at chat (/Users/noelwilliams/Documents/projects/ai/ragAPI/src/controllers/chatController.js:21:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-03-18T11:36:19.256Z"}
+{"level":"error","message":"ApiError: Document not found","stack":"ApiError: Document not found\n    at chat (/Users/noelwilliams/Documents/projects/ai/ragAPI/src/controllers/chatController.js:23:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-03-18T11:37:28.449Z"}
+{"level":"error","message":"ApiError: Document not found","stack":"ApiError: Document not found\n    at chat (/Users/noelwilliams/Documents/projects/ai/ragAPI/src/controllers/chatController.js:23:19)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-03-18T11:38:12.834Z"}
+{"level":"error","message":"Error connecting to MongoDB:","timestamp":"2025-03-18T20:18:23.883Z"}
+{"level":"error","message":"Error connecting to MongoDB:","timestamp":"2025-03-18T20:19:20.662Z"}
+{"level":"error","message":"Error connecting to MongoDB:","timestamp":"2025-03-18T20:20:06.228Z"}
+{"level":"error","message":"Error connecting to MongoDB:","timestamp":"2025-03-18T20:20:39.521Z"}
+{"level":"error","message":"Error connecting to MongoDB:","timestamp":"2025-03-18T20:21:33.985Z"}
+{"level":"error","message":"Error connecting to MongoDB:","timestamp":"2025-03-18T20:25:03.900Z"}
+{"level":"error","message":"Error connecting to MongoDB:","timestamp":"2025-03-18T20:26:03.539Z"}
+{"level":"error","message":"Error connecting to MongoDB:","timestamp":"2025-03-18T20:42:15.834Z"}
+{"level":"error","message":"Error connecting to MongoDB:","timestamp":"2025-03-18T20:42:57.388Z"}
+{"level":"error","message":"Error connecting to MongoDB:","timestamp":"2025-03-18T20:44:26.044Z"}

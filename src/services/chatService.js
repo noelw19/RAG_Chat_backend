@@ -115,6 +115,8 @@ Answer:`;
             // Format chat history
             const formattedHistory = this.formatChatHistory(chatHistory);
 
+            console.log(formattedHistory)
+
             // Invoke chain
             const response = await chain.invoke({
                 question: question,

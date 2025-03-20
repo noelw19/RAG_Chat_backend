@@ -23,9 +23,14 @@ const chatValidator = [
     body('documentId').isMongoId().withMessage('Valid document ID is required')
 ];
 
+const chatDeleteValidator = [
+    body('threadId').notEmpty().withMessage('Thread ID is required'),
+];
+
 module.exports = {
     registerValidator,
     loginValidator,
     documentValidator,
-    chatValidator
+    chatValidator,
+    chatDeleteValidator
 };

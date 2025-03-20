@@ -31,7 +31,8 @@ const userSchema = new mongoose.Schema({
     messages: {
         type: [{
             name: String,
-            messages: String
+            messages: String,
+            documentId: String,
         }],
         default: []
     }

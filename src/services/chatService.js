@@ -17,7 +17,7 @@ class ChatService {
             maxTokens: 1024
         });
 
-        this.condenseQuestionTemplate = `Given the following conversation and a follow-up question, rephrase the follow-up question to be a standalone question that captures all necessary context from the conversation.
+        this.condenseQuestionTemplate = `Given the following conversation and a follow-up question, rephrase the follow-up question to be a standalone question.
 
 Chat History:
 {chat_history}
@@ -26,21 +26,31 @@ Follow-up Question: {question}
 
 Standalone Question:`;
 
-        this.answerTemplate = `You are a helpful AI assistant that helps users find information from documentation. You have access to documentation chunks and need to answer the user's question based on this information.
+        this.answerTemplate = `You are a helpful AI assistant specialized in retrieving and synthesizing information from provided documents and conversation history. Your primary function is to answer user questions by referencing only the specific information available to you in each query.
 
-Context information from the documentation:
+Document Context:
 {context}
 
-User question: {question}
+Chat History:
+{chat_history}
+
+User Question: {question}
 
 Instructions:
-1. Answer the question based only on the provided context.
-2. If the context doesn't contain the answer, say "I don't have enough information to answer that question based on the documentation provided."
-3. Don't make up information or use knowledge outside of the provided context.
-4. Keep your answer concise, clear, and directly address the user's question.
-5. If appropriate, include code examples or step-by-step instructions from the documentation.
+1. Analyze the user's question carefully to understand what information they're seeking.
+2. Search the provided document context first for relevant information.
+3. If the document context doesn't contain sufficient information, check the chat history for relevant details or previous answers to similar questions.
+4. If the user asks about their previous messages or questions, refer specifically to the chat history.
+5. Only use information present in either the document context or chat history.
+6. If neither source contains the information needed to answer the question accurately, respond with: "I don't have enough information in the provided context or chat history to answer this question."
+7. Do not reference external knowledge or make assumptions beyond what's explicitly provided.
+8. Format your response clearly and concisely:
+   - For procedural questions, include step-by-step instructions if available
+   - For code-related questions, include relevant code examples from the context
+9. Maintain a helpful, professional tone throughout your response.
+10. Focus on answering exactly what was asked without unnecessary elaboration.
 
-Answer:`;
+Your response:`;
     }
 
     async createChain(documentId) {
@@ -67,13 +77,22 @@ Answer:`;
 
             // Create retrieval chain
             const retrievalChain = RunnableSequence.from([
+                (e) => {
+                    console.log(e)
+                    return e
+                },
                 {
                     context: RunnableSequence.from([
                         prevResult => prevResult.standalone_question,
                         retriever,
                         docs => docs.map(doc => doc.pageContent).join("\n\n")
                     ]),
-                    question: ({ standalone_question }) => standalone_question
+                    question: ({ standalone_question }) => standalone_question,
+                    chat_history: ({original_input}) => original_input.chat_history
+                },
+                (e) => {
+                    console.log(e)
+                    return e
                 },
                 answerPrompt,
                 this.llm,
@@ -84,25 +103,30 @@ Answer:`;
             const conversationalChain = RunnableSequence.from([
                 {
                     standalone_question: standaloneQuestionChain,
-                    original_input: new RunnablePassthrough()
+                    original_input: new RunnablePassthrough(),
+                },
+                (e) => {
+                    console.log(e)
+                    return e
                 },
                 retrievalChain
             ]);
 
             return conversationalChain;
         } catch (error) {
-            logger.error(`Error creating chat chain: ${error.message}`, { documentId, error });
+            logger.error(`Error creating chat chain: ${error.message}`, { documentId, chatHistory, error });
             throw error;
         }
     }
 
     // Format chat history from array of messages
     formatChatHistory(messages) {
-        return messages.map(message => {
+        console.log("messages here: ", messages)
+        return messages[0].map(message => {
             if (message.role === 'user') {
-                return `Human: ${message.content}`;
+                return `Human: ${message.text}`;
             } else {
-                return `Assistant: ${message.content}`;
+                return `Assistant: ${message.text}`;
             }
         }).join('\n');
     }
@@ -113,9 +137,9 @@ Answer:`;
             const chain = await this.createChain(documentId);
 
             // Format chat history
-            const formattedHistory = this.formatChatHistory(chatHistory);
+            const formattedHistory = this.formatChatHistory([chatHistory]);
 
-            console.log(formattedHistory)
+            console.log("Formatted: " ,formattedHistory)
 
             // Invoke chain
             const response = await chain.invoke({

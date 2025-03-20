@@ -150,7 +150,7 @@ const deleteDocument = async (req, res, next) => {
         }
 
         // Delete document from database
-        await document.remove();
+        await document.deleteOne();
 
         res.status(200).json({
             status: 'success',

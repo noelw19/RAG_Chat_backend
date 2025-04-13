@@ -65,15 +65,14 @@ const login = async (req, res, next) => {
             throw new ApiError('Invalid credentials', 401);
         }
 
-        const logging = {
+        const logging = JSON.stringify({
             user: user.name,
             ip: req.socket.remoteAddress
-        }
+        })
 
         // Check password
         const isMatch = await user.comparePassword(password);
         if (!isMatch) {
-            logging = JSON.stringify(logging)
             throw new ApiError(`Invalid credentials: ${logging}`, 401);
         }
 

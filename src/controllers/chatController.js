@@ -65,7 +65,7 @@ const chat = async (req, res, next) => {
         console.log("Last one: ", chatHistory[chatHistory.length - 1])
         const response = await chatService.processChat(documentId, query.text, chatHistory);
 
-        let currentUser = await User.findOne({ name: req.user.name });
+        let currentUser = await User.findOne({ email: req.user.email });
 
         if (!currentUser) {
             return res.status(404).json({ status: "error", message: "User not found" });

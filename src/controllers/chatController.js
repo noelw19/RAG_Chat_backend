@@ -97,7 +97,8 @@ const chat = async (req, res, next) => {
             console.log("Added a new conversation:", newMessage);
         }
 
-        await currentUser.save();
+        const isSaved = await currentUser.save();
+        console.log("New messages saved to chat: ", isSaved);
 
         res.status(200).json({
             status: "success",

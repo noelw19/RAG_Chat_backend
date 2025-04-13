@@ -67,7 +67,7 @@ const login = async (req, res, next) => {
 
         const logging = {
             user: user.name,
-            ip: request.socket.remoteAddress
+            ip: req.socket.remoteAddress
         }
 
         // Check password

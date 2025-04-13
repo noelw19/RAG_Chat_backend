@@ -3,6 +3,7 @@
 const { validationResult } = require('express-validator');
 const User = require('../models/user');
 const { ApiError } = require('../middleware/errorHandler');
+const logger = require('../utils/logger');
 
 const register = async (req, res, next) => {
     try {
@@ -64,10 +65,16 @@ const login = async (req, res, next) => {
             throw new ApiError('Invalid credentials', 401);
         }
 
+        const logging = {
+            user: user.name,
+            ip: request.socket.remoteAddress
+        }
+
         // Check password
         const isMatch = await user.comparePassword(password);
         if (!isMatch) {
-            throw new ApiError('Invalid credentials', 401);
+            logging = JSON.stringify(logging)
+            throw new ApiError(`Invalid credentials: ${logging}`, 401);
         }
 
         // Generate token
@@ -79,6 +86,8 @@ const login = async (req, res, next) => {
             sameSite: 'Strict', // Helps prevent CSRF attacks
             maxAge: 24 * 60 * 60 * 1000 // 1 day expiration
         });
+
+        logger.info(`Successful credentials: ${logging}`)
 
         res.status(200).json({
             status: 'success',

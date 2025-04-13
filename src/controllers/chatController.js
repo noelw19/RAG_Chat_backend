@@ -17,7 +17,7 @@ const deleteChat = async (req, res, next) => {
 
         const { threadId } = req.body;
 
-        let currentUser = await User.findOne({ name: req.user.name });
+        let currentUser = await User.findOne({ email: req.user.email });
 
         if (!currentUser) {
             return res.status(404).json({ status: "error", message: "User not found" });
